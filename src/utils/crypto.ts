@@ -1,7 +1,7 @@
 
 import { keccak_256 } from '@noble/hashes/sha3';
-import { base58, base58check } from '@scure/base';
-import { bytesToHex, hexToBytes, concatBytes } from '@noble/hashes/utils';
+import { createBase58check } from '@scure/base';
+import { bytesToHex } from '@noble/hashes/utils';
 import { bech32, bech32m } from '@scure/base';
 
 // Function to convert a Bitcoin address to BRC2.0 EVM address
@@ -29,7 +29,7 @@ function getPkScriptFromAddress(address: string): Uint8Array {
   // Check address type
   if (address.startsWith('1')) {
     // P2PKH (legacy)
-    const decoded = base58check(keccak_256).decode(address);
+    const decoded = createBase58check(keccak_256).decode(address);
     const pubKeyHash = decoded.slice(1);
     return new Uint8Array([
       0x76, // OP_DUP
@@ -41,7 +41,7 @@ function getPkScriptFromAddress(address: string): Uint8Array {
     ]);
   } else if (address.startsWith('3')) {
     // P2SH (legacy)
-    const decoded = base58check(keccak_256).decode(address);
+    const decoded = createBase58check(keccak_256).decode(address);
     const scriptHash = decoded.slice(1);
     return new Uint8Array([
       0xa9, // OP_HASH160
@@ -132,7 +132,7 @@ export function isValidBitcoinAddress(address: string): boolean {
   try {
     // Legacy address validation
     if (address.startsWith('1') || address.startsWith('3')) {
-      const decoded = base58check(keccak_256).decode(address);
+      const decoded = createBase58check(keccak_256).decode(address);
       // Check if it's P2PKH (version 0x00) or P2SH (version 0x05)
       return decoded[0] === 0x00 || decoded[0] === 0x05;
     }
