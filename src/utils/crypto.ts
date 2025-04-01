@@ -7,7 +7,7 @@ import { bytesToHex, hexToBytes } from '@noble/hashes/utils';
 export function bitcoinToEvmAddress(bitcoinAddress: string): string {
   try {
     // First, decode the Bitcoin address to get the public key hash
-    const decoded = base58check.decode(bitcoinAddress);
+    const decoded = base58check(keccak_256).decode(bitcoinAddress);
     
     // The public key hash is the decoded data without the version byte
     const pubKeyHash = decoded.slice(1);
@@ -57,7 +57,7 @@ function toChecksumAddress(address: string): string {
 // Validate Bitcoin address format
 export function isValidBitcoinAddress(address: string): boolean {
   try {
-    const decoded = base58check.decode(address);
+    const decoded = base58check(keccak_256).decode(address);
     // Check if it's P2PKH (version 0x00) or P2SH (version 0x05)
     return decoded[0] === 0x00 || decoded[0] === 0x05;
   } catch {
