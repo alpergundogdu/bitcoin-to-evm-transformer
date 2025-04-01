@@ -4,7 +4,7 @@ import { base58, base58check } from '@scure/base';
 import { bytesToHex, hexToBytes, concatBytes } from '@noble/hashes/utils';
 import { bech32, bech32m } from '@scure/base';
 
-// Function to convert a Bitcoin address to EVM address
+// Function to convert a Bitcoin address to BRC2.0 EVM address
 export function bitcoinToEvmAddress(bitcoinAddress: string): string {
   try {
     // Get the script for the address
