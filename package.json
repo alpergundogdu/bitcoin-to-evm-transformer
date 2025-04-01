@@ -2,7 +2,7 @@
   "name": "vite_react_shadcn_ts",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://alpergundogdu.github.io/bitcoin-to-evm-transformer",
+  "homepage": "https://alpergundogdu.github.io/bitcoin-to-evm-transformer/",
   "type": "module",
   "scripts": {
     "dev": "vite",
