@@ -56,7 +56,9 @@ function getPkScriptFromAddress(address: string): Uint8Array {
       
       // Try bech32 (Segwit v0)
       try {
-        const { words } = bech32.decode(address);
+        // Use type assertion to help TypeScript understand this is a valid format
+        // The bech32 library expects strings with a specific format
+        const { words } = bech32.decode(address as any);
         const version = words[0];
         const data = bech32.fromWords(words.slice(1));
         
@@ -83,7 +85,8 @@ function getPkScriptFromAddress(address: string): Uint8Array {
       
       // Try bech32m (Taproot, Segwit v1+)
       try {
-        const { words } = bech32m.decode(address);
+        // Use type assertion to help TypeScript understand this is a valid format
+        const { words } = bech32m.decode(address as any);
         const version = words[0];
         const data = bech32m.fromWords(words.slice(1));
         
@@ -138,12 +141,12 @@ export function isValidBitcoinAddress(address: string): boolean {
     if (address.startsWith('bc1') || address.startsWith('tb1')) {
       try {
         // Try bech32 (Segwit v0)
-        bech32.decode(address);
+        bech32.decode(address as any);
         return true;
       } catch (e) {
         try {
           // Try bech32m (Taproot, Segwit v1+)
-          bech32m.decode(address);
+          bech32m.decode(address as any);
           return true;
         } catch (e) {
           return false;
